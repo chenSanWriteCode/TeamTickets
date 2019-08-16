@@ -32,12 +32,14 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(IdentityCollectionForm));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(IdentityCollectionForm));
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.dgv_idData = new System.Windows.Forms.DataGridView();
+            this.id_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.id_num = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1 = new System.Windows.Forms.Panel();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             this.l_sum = new System.Windows.Forms.Label();
@@ -76,13 +78,13 @@
             this.btn_2 = new System.Windows.Forms.Button();
             this.btn_1 = new System.Windows.Forms.Button();
             this.tb_idNum = new System.Windows.Forms.TextBox();
-            this.id_name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.id_num = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_idData)).BeginInit();
             this.panel1.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
             this.panel2.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
+            this.flowLayoutPanel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -118,7 +120,7 @@
             dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
             this.dgv_idData.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.dgv_idData.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.dgv_idData.BackgroundColor = System.Drawing.Color.White;
+            this.dgv_idData.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(216)))), ((int)(((byte)(238)))), ((int)(((byte)(252)))));
             this.dgv_idData.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dgv_idData.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleVertical;
             this.dgv_idData.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.Disable;
@@ -161,12 +163,28 @@
             this.dgv_idData.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dgv_idData_RowsAdded);
             this.dgv_idData.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.dgv_idData_RowsRemoved);
             // 
+            // id_name
+            // 
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.CornflowerBlue;
+            this.id_name.DefaultCellStyle = dataGridViewCellStyle3;
+            this.id_name.HeaderText = "姓名";
+            this.id_name.Name = "id_name";
+            this.id_name.Width = 90;
+            // 
+            // id_num
+            // 
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.CornflowerBlue;
+            this.id_num.DefaultCellStyle = dataGridViewCellStyle4;
+            this.id_num.HeaderText = "身份证号";
+            this.id_num.Name = "id_num";
+            this.id_num.Width = 244;
+            // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.Transparent;
+            this.panel1.Controls.Add(this.flowLayoutPanel3);
             this.panel1.Controls.Add(this.flowLayoutPanel2);
             this.panel1.Controls.Add(this.panel2);
-            this.panel1.Controls.Add(this.labelStatus);
             this.panel1.Controls.Add(this.btnHome);
             this.panel1.Controls.Add(this.flowLayoutPanel1);
             this.panel1.Controls.Add(this.label2);
@@ -220,6 +238,7 @@
             // panel2
             // 
             this.panel2.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.panel2.BackColor = System.Drawing.Color.Transparent;
             this.panel2.BackgroundImage = global::TeamTickets.Properties.Resources.bg;
             this.panel2.Controls.Add(this.label6);
             this.panel2.Controls.Add(this.tb_baby);
@@ -420,7 +439,7 @@
             this.labelStatus.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.labelStatus.AutoSize = true;
             this.labelStatus.ForeColor = System.Drawing.Color.Red;
-            this.labelStatus.Location = new System.Drawing.Point(933, 712);
+            this.labelStatus.Location = new System.Drawing.Point(244, 0);
             this.labelStatus.Name = "labelStatus";
             this.labelStatus.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.labelStatus.Size = new System.Drawing.Size(53, 12);
@@ -488,6 +507,8 @@
             this.btn_back.BackgroundImage = global::TeamTickets.Properties.Resources.del;
             this.btn_back.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btn_back.FlatAppearance.BorderSize = 0;
+            this.btn_back.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.btn_back.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.btn_back.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_back.Font = new System.Drawing.Font("微软雅黑", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btn_back.Location = new System.Drawing.Point(197, 653);
@@ -631,6 +652,8 @@
             this.btn_clear.BackgroundImage = global::TeamTickets.Properties.Resources.清空;
             this.btn_clear.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btn_clear.FlatAppearance.BorderSize = 0;
+            this.btn_clear.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.btn_clear.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.btn_clear.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_clear.Font = new System.Drawing.Font("微软雅黑", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btn_clear.ForeColor = System.Drawing.Color.White;
@@ -761,27 +784,21 @@
             this.tb_idNum.Size = new System.Drawing.Size(293, 39);
             this.tb_idNum.TabIndex = 6;
             // 
-            // id_name
+            // flowLayoutPanel3
             // 
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.CornflowerBlue;
-            this.id_name.DefaultCellStyle = dataGridViewCellStyle3;
-            this.id_name.HeaderText = "姓名";
-            this.id_name.Name = "id_name";
-            this.id_name.Width = 90;
-            // 
-            // id_num
-            // 
-            dataGridViewCellStyle4.BackColor = System.Drawing.Color.CornflowerBlue;
-            this.id_num.DefaultCellStyle = dataGridViewCellStyle4;
-            this.id_num.HeaderText = "身份证号";
-            this.id_num.Name = "id_num";
-            this.id_num.Width = 240;
+            this.flowLayoutPanel3.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.flowLayoutPanel3.Controls.Add(this.labelStatus);
+            this.flowLayoutPanel3.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
+            this.flowLayoutPanel3.Location = new System.Drawing.Point(696, 709);
+            this.flowLayoutPanel3.Name = "flowLayoutPanel3";
+            this.flowLayoutPanel3.Size = new System.Drawing.Size(300, 18);
+            this.flowLayoutPanel3.TabIndex = 26;
             // 
             // IdentityCollectionForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
+            this.BackgroundImage = global::TeamTickets.Properties.Resources.mainback;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1008, 730);
             this.Controls.Add(this.panel1);
@@ -795,7 +812,6 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "  团体乘客身份证采集";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            this.Load += new System.EventHandler(this.IdentityCollectionForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_idData)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
@@ -805,6 +821,8 @@
             this.panel2.PerformLayout();
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.PerformLayout();
+            this.flowLayoutPanel3.ResumeLayout(false);
+            this.flowLayoutPanel3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -854,6 +872,7 @@
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
         private System.Windows.Forms.DataGridViewTextBoxColumn id_name;
         private System.Windows.Forms.DataGridViewTextBoxColumn id_num;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel3;
     }
 }
 

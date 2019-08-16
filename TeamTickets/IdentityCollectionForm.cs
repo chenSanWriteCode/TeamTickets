@@ -14,11 +14,23 @@ namespace TeamTickets
         private string phoneNum { get; set; }
         private ReadID IDRead;
         private string currentDate;
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams paras = base.CreateParams;
+                paras.ExStyle |= 0x02000000;
+                return paras;
+            }
+        }
         public IdentityCollectionForm(string phoneNum = null)
         {
             InitializeComponent();
             this.phoneNum = phoneNum;
             changeLabelAttation();
+
+            changeLabelSum();
+            labelStatus.Text = "";
 
             currentDate = DateTime.Now.ToString("yyyy-MM-dd");
             createId(0);
@@ -71,7 +83,9 @@ namespace TeamTickets
             {
                 if (item.Cells[1].Value.ToString() == card.Code)
                 {
-                    MessageBox.Show($"{card.Code}已添加");
+                    MyMessageBox msg = new MyMessageBox($"{card.Code}已添加");
+                    msg.Show();
+                    //MessageBox.Show();
                     return false;
                 };
             }
@@ -101,7 +115,9 @@ namespace TeamTickets
         {
             if (dgv_idData.Rows.Count < 10)
             {
-                MessageBox.Show("单张团体票最少10人");
+                MyMessageBox msg = new MyMessageBox($"单张团体票最少10人");
+                msg.Show();
+                //MessageBox.Show("单张团体票最少10人");
                 return;
             }
 
@@ -141,7 +157,9 @@ namespace TeamTickets
             }
             else
             {
-                MessageBox.Show("出现错误，请重新打印" + result.Message);
+                MyMessageBox msg = new MyMessageBox("出现错误，请重新打印" + result.Message);
+                msg.Show();
+                //MessageBox.Show("出现错误，请重新打印" + result.Message);
             }
 
         }
@@ -150,7 +168,9 @@ namespace TeamTickets
         {
             if (!checkDGV())
             {
-                MessageBox.Show("单次最多添加20人");
+                MyMessageBox msg = new MyMessageBox("单次最多添加20人");
+                msg.Show();
+                //MessageBox.Show("单次最多添加20人");
                 return;
             }
             if (checkIDNum())
@@ -159,13 +179,17 @@ namespace TeamTickets
                 var result = addDGVRow(idInfo);
                 if (result)
                 {
-                    MessageBox.Show("添加成功");
+                    MyMessageBox msg = new MyMessageBox("添加成功");
+                    msg.Show();
+                    //MessageBox.Show("添加成功");
                 }
                 tb_idNum.Clear();
             }
             else
             {
-                MessageBox.Show("请输入正确身份证号");
+                MyMessageBox msg = new MyMessageBox("请输入正确身份证号");
+                msg.Show();
+                //MessageBox.Show();
             }
         }
         private void btn_idBackspace_Click(object sender, EventArgs e)
@@ -347,12 +371,6 @@ namespace TeamTickets
                 
             }
             this.Close();
-        }
-
-        private void IdentityCollectionForm_Load(object sender, EventArgs e)
-        {
-            l_sum.Text = $"当前已登记{dgv_idData.Rows.Count}人 / 共20人 【 0元票: 0人 | 半价票:0人 | 导游票:0 人】";
-            labelStatus.Text = "";
         }
     }
 

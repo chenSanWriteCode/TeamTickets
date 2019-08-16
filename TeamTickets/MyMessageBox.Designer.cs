@@ -49,6 +49,8 @@
             this.btn_ok.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btn_ok.BackgroundImage")));
             this.btn_ok.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_ok.FlatAppearance.BorderSize = 0;
+            this.btn_ok.FlatAppearance.MouseDownBackColor = System.Drawing.Color.White;
+            this.btn_ok.FlatAppearance.MouseOverBackColor = System.Drawing.Color.White;
             this.btn_ok.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_ok.Font = new System.Drawing.Font("微软雅黑", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btn_ok.ForeColor = System.Drawing.Color.White;

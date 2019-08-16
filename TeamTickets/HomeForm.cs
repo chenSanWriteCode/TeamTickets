@@ -26,14 +26,16 @@ namespace TeamTickets
             {
                 this.Cursor = Cursors.WaitCursor;
                 var err = await isVip(phoneNum);
-                this.Cursor = Cursors.Default;
+                
                 if (err.code==0)
                 {
                     IdentityCollectionForm idForm = new IdentityCollectionForm(phoneNum);
                     idForm.ShowDialog();
+                    this.Cursor = Cursors.Default;
                 }
                 else
                 {
+                    this.Cursor = Cursors.Default;
                     MyMessageBox msb = new MyMessageBox( err.msg);
                     msb.Show();
                     //MessageBox.Show(err.msg);
@@ -43,8 +45,10 @@ namespace TeamTickets
 
         private void btn_windowTunnel_Click(object sender, EventArgs e)
         {
+            this.Cursor = Cursors.WaitCursor;
             IdentityCollectionForm idForm = new IdentityCollectionForm();
             idForm.ShowDialog();
+            this.Cursor = Cursors.Default;
         }
 
 

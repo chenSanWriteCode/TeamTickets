@@ -79,6 +79,8 @@
             this.btn_cancle.BackgroundImage = global::TeamTickets.Properties.Resources.btn_cancle;
             this.btn_cancle.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_cancle.FlatAppearance.BorderSize = 0;
+            this.btn_cancle.FlatAppearance.MouseDownBackColor = System.Drawing.Color.White;
+            this.btn_cancle.FlatAppearance.MouseOverBackColor = System.Drawing.Color.White;
             this.btn_cancle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_cancle.Font = new System.Drawing.Font("微软雅黑", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btn_cancle.ForeColor = System.Drawing.Color.White;
@@ -95,6 +97,8 @@
             this.btn_phone_ok.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btn_phone_ok.BackgroundImage")));
             this.btn_phone_ok.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btn_phone_ok.FlatAppearance.BorderSize = 0;
+            this.btn_phone_ok.FlatAppearance.MouseDownBackColor = System.Drawing.Color.White;
+            this.btn_phone_ok.FlatAppearance.MouseOverBackColor = System.Drawing.Color.White;
             this.btn_phone_ok.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_phone_ok.Font = new System.Drawing.Font("微软雅黑", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btn_phone_ok.ForeColor = System.Drawing.Color.White;
@@ -325,9 +329,9 @@
             // 
             this.tb_phoneNum.Enabled = false;
             this.tb_phoneNum.Font = new System.Drawing.Font("微软雅黑", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.tb_phoneNum.Location = new System.Drawing.Point(63, 74);
+            this.tb_phoneNum.Location = new System.Drawing.Point(52, 74);
             this.tb_phoneNum.Name = "tb_phoneNum";
-            this.tb_phoneNum.Size = new System.Drawing.Size(247, 35);
+            this.tb_phoneNum.Size = new System.Drawing.Size(274, 35);
             this.tb_phoneNum.TabIndex = 1;
             // 
             // label1
