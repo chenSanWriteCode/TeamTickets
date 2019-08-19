@@ -1,9 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Globalization;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
+using Newtonsoft.Json;
 using TeamTickets.Entity;
 using TeamTickets.Service;
 
@@ -29,7 +35,7 @@ namespace TeamTickets
             this.phoneNum = phoneNum;
             changeLabelAttation();
 
-            changeLabelSum();
+            changeLabelSum(); 
             labelStatus.Text = "";
 
             currentDate = DateTime.Now.ToString("yyyy-MM-dd");
@@ -111,7 +117,51 @@ namespace TeamTickets
                 dgv_idData.Rows.Remove(collection[0]);
             }
         }
-        private void btn_Print_Click(object sender, EventArgs e)
+
+        private async Task<HttpErr> saveInfo()
+        {
+            HttpErr err = new HttpErr();
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri(ConstInfo.URL_Base_Save);
+            Dictionary<string, string> dict = new Dictionary<string, string>();
+            PassengerInfoParam param = new PassengerInfoParam()
+            {
+                account = phoneNum,
+                groupPassengerInfo = null
+            };
+            dict.Add("jsonStr", JsonConvert.SerializeObject(param));
+            var response = await client.PostAsync(ConstInfo.URL_Save, new FormUrlEncodedContent(dict));
+            var result = await response.Content.ReadAsStringAsync();
+            try
+            {
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    err = JsonConvert.DeserializeObject<HttpErr>(result);
+                }
+                else
+                {
+                    err.code = -1;
+                    err.msg = result;
+                }
+            }
+            catch (Exception e)
+            {
+                err.code = -1;
+                err.msg = e.Message + err;
+            }
+
+            return err;
+        }
+
+        private DateTime convertToDateTime(string str)
+        {
+            DateTime convertD = DateTime.Now;
+            DateTimeFormatInfo format = new DateTimeFormatInfo();
+            format.LongDatePattern = "yyyy-MM-dd HH:mm:ss";
+            convertD = DateTime.Parse(str, format);
+            return convertD;
+        }
+        private async void btn_Print_Click(object sender, EventArgs e)
         {
             if (dgv_idData.Rows.Count < 10)
             {
@@ -120,14 +170,23 @@ namespace TeamTickets
                 //MessageBox.Show("单张团体票最少10人");
                 return;
             }
-
-
-            //TODO 调用接口进行保存
-
-
+            var serviceResult = await saveInfo();
+            if (serviceResult.code!=1)
+            {
+                MyMessageBox msg = new MyMessageBox(serviceResult.msg);
+                msg.Show();
+                return;
+            }
+            var data = (TicketReturnInfo)serviceResult.retval;
+            var startDay = convertToDateTime(data.startTime);
+            var endDay = convertToDateTime(data.endTime);
+            var diffDay = (endDay.Date - startDay.Date).Days;
             TicketCode ticket = new TicketCode()
             {
                 Id = createId(),
+                Code = data.certificateNum,
+                AffectDay = diffDay,
+                AffectStr = startDay.ToString("yyyy-MM-dd") + "    至    "+ endDay.ToString("yyyy-MM-dd"),
                 TeamCount = dgv_idData.Rows.Count,
                 BabyCount = Convert.ToInt32(tb_baby.Text),
                 HalfCount = Convert.ToInt32(tb_child.Text),
@@ -150,7 +209,7 @@ namespace TeamTickets
                     }
                     catch (Exception err)
                     {
-                        
+
                     }
                     this.Close();
                 }
@@ -372,6 +431,8 @@ namespace TeamTickets
             }
             this.Close();
         }
+
+
     }
 
     public enum Operation

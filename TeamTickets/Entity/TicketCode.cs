@@ -15,6 +15,6 @@ namespace TeamTickets.Entity
         public int GuideCount { get; set; }
         public int BabyCount { get; set; }
         public int AffectDay { get; set; }
-        public string AffectStr { get { return DateTime.Now.ToString("yyyy-MM-dd") + "    至    " + DateTime.Now.AddDays(this.AffectDay).ToString("yyyy-MM-dd"); } }
+        public string AffectStr { get; set; }//{ get { return DateTime.Now.ToString("yyyy-MM-dd") + "    至    " + DateTime.Now.AddDays(this.AffectDay).ToString("yyyy-MM-dd"); } }
     }
 }

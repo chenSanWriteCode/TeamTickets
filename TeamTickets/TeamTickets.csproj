@@ -61,6 +61,7 @@
     <Compile Include="Entity\ConstInfo.cs" />
     <Compile Include="Entity\HttpErr.cs" />
     <Compile Include="Entity\IDCard.cs" />
+    <Compile Include="Entity\PassengerInfoParam.cs" />
     <Compile Include="MyPanel.cs">
       <SubType>Component</SubType>
     </Compile>
