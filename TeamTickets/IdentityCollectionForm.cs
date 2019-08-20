@@ -7,10 +7,12 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Newtonsoft.Json;
 using TeamTickets.Entity;
+using TeamTickets.GroupPassengersService;
 using TeamTickets.Service;
 
 namespace TeamTickets
@@ -29,15 +31,15 @@ namespace TeamTickets
                 return paras;
             }
         }
-        public IdentityCollectionForm(string phoneNum = null)
+        public IdentityCollectionForm(string phoneNum = "")
         {
             InitializeComponent();
             this.phoneNum = phoneNum;
             changeLabelAttation();
 
-            changeLabelSum(); 
+            changeLabelSum();
             labelStatus.Text = "";
-
+            l_sum.Text = $"当前已登记 0人 / 共20人 【 0元票: 0人 | 半价票: 0人 | 导游票: 0人】";
             currentDate = DateTime.Now.ToString("yyyy-MM-dd");
             createId(0);
             IDRead = new ReadID();
@@ -50,15 +52,15 @@ namespace TeamTickets
             {
                 this.labelStatus.Text = "身份证读卡器连接失败，请检查！";
             }
-            
+
         }
-        private string createId(int increase=1)
+        private string createId(int increase = 1)
         {
             ConfigXmlDocument doc = new ConfigXmlDocument();
             doc.Load(ConstInfo.TicketID_Path);
             var date = doc.SelectSingleNode("TicketID/date").InnerText;
             string ticketId = "";
-            if (date!=currentDate)
+            if (date != currentDate)
             {
                 var dateNode = doc.SelectSingleNode("TicketID/date");
                 dateNode.InnerText = currentDate;
@@ -72,14 +74,27 @@ namespace TeamTickets
             }
             doc.SelectSingleNode("TicketID/id").InnerText = ticketId;
             doc.Save(ConstInfo.TicketID_Path);
-            return currentDate+"-"+ticketId;
+            return currentDate + "-" + ticketId;
         }
         private void receivedData(IDCard card)
         {
-            if (checkDGV())
+            if (!checkDGV())
             {
-                addDGVRow(card);
+                MyMessageBox msg = new MyMessageBox($"单次最多添加20人!");
+                msg.ShowDialog();
+                return;
             }
+            //TODO:身份证合法性校验（可能存在读取身份证号错位的情况）
+            if (!checkIDNum(card.Code))
+            {
+                MyMessageBox msg = new MyMessageBox($"{card.Code} 身份证不合法，请重新采集");
+                msg.ShowDialog();
+                return;
+            }
+            //TODO: 身份证地址判断 新疆，西藏
+
+            //TODO： 身份证民族判断，维族特殊处理 
+            addDGVRow(card);
         }
 
         private bool addDGVRow(IDCard card)
@@ -87,19 +102,19 @@ namespace TeamTickets
 
             foreach (DataGridViewRow item in dgv_idData.Rows)
             {
-                if (item.Cells[1].Value.ToString() == card.Code)
+                if (item.Cells[2].Value.ToString() == card.Code)
                 {
                     MyMessageBox msg = new MyMessageBox($"{card.Code}已添加");
-                    msg.Show();
-                    //MessageBox.Show();
+                    msg.ShowDialog();
                     return false;
                 };
             }
             dgv_idData.BeginInvoke(new Action(() =>
             {
                 int index = dgv_idData.Rows.Add();
-                dgv_idData.Rows[index].Cells[0].Value = card.Name;
-                dgv_idData.Rows[index].Cells[1].Value = card.Code;
+                dgv_idData.Rows[index].Cells[0].Value = index + 1;
+                dgv_idData.Rows[index].Cells[1].Value = card.Name;
+                dgv_idData.Rows[index].Cells[2].Value = card.Code;
                 dgv_idData.ClearSelection();
             }));
             return true;
@@ -121,28 +136,44 @@ namespace TeamTickets
         private async Task<HttpErr> saveInfo()
         {
             HttpErr err = new HttpErr();
-            HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri(ConstInfo.URL_Base_Save);
+            //HttpClient client = new HttpClient();
+            //client.BaseAddress = new Uri(ConstInfo.URL_Base_Save);
             Dictionary<string, string> dict = new Dictionary<string, string>();
             PassengerInfoParam param = new PassengerInfoParam()
             {
+                deptId = ConstInfo.harbour,
                 account = phoneNum,
-                groupPassengerInfo = null
+                groupPassengerInfo = new List<PassengerInfo>()
             };
-            dict.Add("jsonStr", JsonConvert.SerializeObject(param));
-            var response = await client.PostAsync(ConstInfo.URL_Save, new FormUrlEncodedContent(dict));
-            var result = await response.Content.ReadAsStringAsync();
+            foreach (DataGridViewRow item in dgv_idData.Rows)
+            {
+                param.groupPassengerInfo.Add(
+                    new PassengerInfo
+                    {
+                        cardName = item.Cells["id_name"].Value.ToString(),
+                        cardNo = item.Cells["id_num"].Value.ToString()
+                    });
+            }
+
+            //dict.Add("jsonStr", JsonConvert.SerializeObject(param));
+            //client.DefaultRequestHeaders.Add("SOAPAction", "TransactionOntimeService");
+            //var response = await client.PostAsync(ConstInfo.URL_Save, new FormUrlEncodedContent(dict));
+            //var result = await response.Content.ReadAsStringAsync();
             try
             {
-                if (response.StatusCode == HttpStatusCode.OK)
-                {
-                    err = JsonConvert.DeserializeObject<HttpErr>(result);
-                }
-                else
-                {
-                    err.code = -1;
-                    err.msg = result;
-                }
+                GroupCertificateServiceClient saveClient = new GroupCertificateServiceClient();
+                var saveResponse = await saveClient.groupCertificateSaveAsync(JsonConvert.SerializeObject(param));
+                err = JsonConvert.DeserializeObject<HttpErr>(saveResponse.Body.@return); 
+                //if (response.StatusCode == HttpStatusCode.OK)
+                //{
+           
+                //    err = JsonConvert.DeserializeObject<HttpErr>(result);
+                //}
+                //else
+                //{
+                //    err.code = -1;
+                //    err.msg = result;
+                //}
             }
             catch (Exception e)
             {
@@ -166,12 +197,13 @@ namespace TeamTickets
             if (dgv_idData.Rows.Count < 10)
             {
                 MyMessageBox msg = new MyMessageBox($"单张团体票最少10人");
-                msg.Show();
-                //MessageBox.Show("单张团体票最少10人");
+                msg.ShowDialog();
                 return;
             }
+            this.Cursor = Cursors.WaitCursor;
+            btn_Print.Enabled = false;
             var serviceResult = await saveInfo();
-            if (serviceResult.code!=1)
+            if (serviceResult.code != 1)
             {
                 MyMessageBox msg = new MyMessageBox(serviceResult.msg);
                 msg.Show();
@@ -186,7 +218,7 @@ namespace TeamTickets
                 Id = createId(),
                 Code = data.certificateNum,
                 AffectDay = diffDay,
-                AffectStr = startDay.ToString("yyyy-MM-dd") + "    至    "+ endDay.ToString("yyyy-MM-dd"),
+                AffectStr = startDay.ToString("yyyy-MM-dd") + "    至    " + endDay.ToString("yyyy-MM-dd"),
                 TeamCount = dgv_idData.Rows.Count,
                 BabyCount = Convert.ToInt32(tb_baby.Text),
                 HalfCount = Convert.ToInt32(tb_child.Text),
@@ -194,12 +226,18 @@ namespace TeamTickets
             };
             PrintService service = new PrintService();
             var result = service.print(ticket);
+            this.Cursor = Cursors.Default;
+            btn_Print.Enabled = true;
             if (result.Success)
             {
                 IDConfirmForm confirm = new IDConfirmForm();
                 if (confirm.ShowDialog() == DialogResult.OK)
                 {
                     dgv_idData.Rows.Clear();
+                    tb_baby.Text = "0";
+                    tb_child.Text = "0";
+                    tb_guid.Text = "0";
+                    l_sum.Text = $"当前已登记 0人 / 共20人 【 0元票: 0人 | 半价票: 0人 | 导游票: 0人】";
                 }
                 else
                 {
@@ -217,29 +255,28 @@ namespace TeamTickets
             else
             {
                 MyMessageBox msg = new MyMessageBox("出现错误，请重新打印" + result.Message);
-                msg.Show();
+                msg.ShowDialog();
                 //MessageBox.Show("出现错误，请重新打印" + result.Message);
             }
-
         }
 
         private void btn_idAdd_ok_Click(object sender, EventArgs e)
         {
             if (!checkDGV())
             {
-                MyMessageBox msg = new MyMessageBox("单次最多添加20人");
-                msg.Show();
+                MyMessageBox msg = new MyMessageBox("单次最多添加20人!");
+                msg.ShowDialog();
                 //MessageBox.Show("单次最多添加20人");
                 return;
             }
-            if (checkIDNum())
+            if (checkIDNum(tb_idNum.Text))
             {
                 IDCard idInfo = new IDCard() { Code = tb_idNum.Text };
                 var result = addDGVRow(idInfo);
                 if (result)
                 {
-                    MyMessageBox msg = new MyMessageBox("添加成功");
-                    msg.Show();
+                    //MyMessageBox msg = new MyMessageBox("添加成功");
+                    //msg.Show();
                     //MessageBox.Show("添加成功");
                 }
                 tb_idNum.Clear();
@@ -247,7 +284,7 @@ namespace TeamTickets
             else
             {
                 MyMessageBox msg = new MyMessageBox("请输入正确身份证号");
-                msg.Show();
+                msg.ShowDialog();
                 //MessageBox.Show();
             }
         }
@@ -263,9 +300,39 @@ namespace TeamTickets
         {
             return dgv_idData.Rows.Count < 20;
         }
-        private bool checkIDNum()
+        private bool checkIDNumIs18()
         {
             return tb_idNum.Text.Length == 18;
+        }
+        //身份证合法性判断
+        private bool checkIDNum(string idNum)
+        {
+            Regex regId = new Regex(@"^\d{17}(\d|x)$", RegexOptions.IgnoreCase);
+            if (idNum.Length != 18)
+            {
+                return false;
+            }
+            else
+            {
+                if (!regId.IsMatch(idNum))
+                {
+                    return false;
+                }
+                else
+                {
+                    int iS = 0;
+                    int[] iW = new int[] { 7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2 };
+                    string LastCode = "10X98765432";
+                    for (int i = 0; i < 17; i++)
+                    {
+                        iS += int.Parse(idNum.Substring(i, 1)) * iW[i];
+                    }
+                    int iY = iS % 11;
+                    if (idNum.Substring(17, 1) != LastCode.Substring(iY, 1))
+                        return false;
+                    return true;
+                }
+            }
         }
         private void changeLabelAttation()
         {
@@ -285,7 +352,7 @@ namespace TeamTickets
         #region 0-9+x 键盘
         private void appendText(int num)
         {
-            tb_idNum.AppendText(checkIDNum() ? "" : num.ToString());
+            tb_idNum.AppendText(checkIDNumIs18() ? "" : num.ToString());
         }
         private void appendText_X()
         {
@@ -427,7 +494,7 @@ namespace TeamTickets
             }
             catch (Exception err)
             {
-                
+
             }
             this.Close();
         }

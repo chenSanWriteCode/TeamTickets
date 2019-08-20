@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://api.lwsp.haiyisoft.com/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="GroupCertificateServiceService" targetNamespace="http://api.lwsp.haiyisoft.com/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xs:schema elementFormDefault="unqualified" targetNamespace="http://api.lwsp.haiyisoft.com/" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="groupCertificateNumUpdate" type="tns:groupCertificateNumUpdate" />
+      <xs:element name="groupCertificateNumUpdateResponse" type="tns:groupCertificateNumUpdateResponse" />
+      <xs:element name="groupCertificateQuery" type="tns:groupCertificateQuery" />
+      <xs:element name="groupCertificateQueryResponse" type="tns:groupCertificateQueryResponse" />
+      <xs:element name="groupCertificateSave" type="tns:groupCertificateSave" />
+      <xs:element name="groupCertificateSaveResponse" type="tns:groupCertificateSaveResponse" />
+      <xs:element name="test" type="tns:test" />
+      <xs:element name="testResponse" type="tns:testResponse" />
+      <xs:complexType name="test">
+        <xs:sequence />
+      </xs:complexType>
+      <xs:complexType name="testResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="groupCertificateQuery">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="arg0" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="groupCertificateQueryResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="groupCertificateNumUpdate">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="arg0" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="groupCertificateNumUpdateResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="groupCertificateSave">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="arg0" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="groupCertificateSaveResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="groupCertificateNumUpdateResponse">
+    <wsdl:part name="parameters" element="tns:groupCertificateNumUpdateResponse" />
+  </wsdl:message>
+  <wsdl:message name="groupCertificateQueryResponse">
+    <wsdl:part name="parameters" element="tns:groupCertificateQueryResponse" />
+  </wsdl:message>
+  <wsdl:message name="testResponse">
+    <wsdl:part name="parameters" element="tns:testResponse" />
+  </wsdl:message>
+  <wsdl:message name="groupCertificateNumUpdate">
+    <wsdl:part name="parameters" element="tns:groupCertificateNumUpdate" />
+  </wsdl:message>
+  <wsdl:message name="groupCertificateQuery">
+    <wsdl:part name="parameters" element="tns:groupCertificateQuery" />
+  </wsdl:message>
+  <wsdl:message name="groupCertificateSaveResponse">
+    <wsdl:part name="parameters" element="tns:groupCertificateSaveResponse" />
+  </wsdl:message>
+  <wsdl:message name="test">
+    <wsdl:part name="parameters" element="tns:test" />
+  </wsdl:message>
+  <wsdl:message name="groupCertificateSave">
+    <wsdl:part name="parameters" element="tns:groupCertificateSave" />
+  </wsdl:message>
+  <wsdl:portType name="GroupCertificateService">
+    <wsdl:operation name="test">
+      <wsdl:input name="test" message="tns:test" />
+      <wsdl:output name="testResponse" message="tns:testResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="groupCertificateQuery">
+      <wsdl:input name="groupCertificateQuery" message="tns:groupCertificateQuery" />
+      <wsdl:output name="groupCertificateQueryResponse" message="tns:groupCertificateQueryResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="groupCertificateNumUpdate">
+      <wsdl:input name="groupCertificateNumUpdate" message="tns:groupCertificateNumUpdate" />
+      <wsdl:output name="groupCertificateNumUpdateResponse" message="tns:groupCertificateNumUpdateResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="groupCertificateSave">
+      <wsdl:input name="groupCertificateSave" message="tns:groupCertificateSave" />
+      <wsdl:output name="groupCertificateSaveResponse" message="tns:groupCertificateSaveResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="GroupCertificateServiceServiceSoapBinding" type="tns:GroupCertificateService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="test">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="test">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="testResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="groupCertificateQuery">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="groupCertificateQuery">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="groupCertificateQueryResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="groupCertificateNumUpdate">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="groupCertificateNumUpdate">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="groupCertificateNumUpdateResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="groupCertificateSave">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="groupCertificateSave">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="groupCertificateSaveResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="GroupCertificateServiceService">
+    <wsdl:port name="GroupCertificateServicePort" binding="tns:GroupCertificateServiceServiceSoapBinding">
+      <soap:address location="http://122.5.31.66:8888/TicketInterface/services/GroupCertificateService" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

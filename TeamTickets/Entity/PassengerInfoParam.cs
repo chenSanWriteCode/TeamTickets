@@ -8,7 +8,7 @@ namespace TeamTickets.Entity
 {
     public class PassengerInfoParam
     {
-        public string deptId { get; set; } = "1414";
+        public string deptId { get; set; }
 
         public string account { get; set; }
         public List<PassengerInfo> groupPassengerInfo { get; set; }
@@ -17,6 +17,6 @@ namespace TeamTickets.Entity
     public class PassengerInfo
     {
         public string cardName { get; set; }
-        public string caardNo { get; set; }
+        public string cardNo { get; set; }
     }
 }

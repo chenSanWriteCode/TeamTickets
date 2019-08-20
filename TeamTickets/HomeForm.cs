@@ -11,9 +11,16 @@ namespace TeamTickets
 {
     public partial class HomeForm : Form
     {
+        System.Timers.Timer timer = new System.Timers.Timer();
+        int clickCount = 0;
         public HomeForm()
         {
             InitializeComponent();
+            ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
+            timer.Enabled = true;
+            timer.Interval = 1000;
+            timer.Elapsed += new System.Timers.ElapsedEventHandler(timerElapsed);
+            timer.Start();
         }
 
         private async void btn_AppTunnel_Click(object sender, EventArgs e)
@@ -26,8 +33,8 @@ namespace TeamTickets
             {
                 this.Cursor = Cursors.WaitCursor;
                 var err = await isVip(phoneNum);
-                
-                if (err.code==0)
+
+                if (err.code == 0)
                 {
                     IdentityCollectionForm idForm = new IdentityCollectionForm(phoneNum);
                     idForm.ShowDialog();
@@ -36,7 +43,7 @@ namespace TeamTickets
                 else
                 {
                     this.Cursor = Cursors.Default;
-                    MyMessageBox msb = new MyMessageBox( err.msg);
+                    MyMessageBox msb = new MyMessageBox(err.msg);
                     msb.Show();
                     //MessageBox.Show(err.msg);
                 }
@@ -55,16 +62,15 @@ namespace TeamTickets
         private async Task<HttpErr> isVip(string phoneNum)
         {
             HttpErr err = new HttpErr();
-            ServicePointManager.ServerCertificateValidationCallback+= (sender, cert, chain, sslPolicyErrors) => true;
+            
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(ConstInfo.URL_Base_Phone);
             Dictionary<string, string> dict = new Dictionary<string, string>();
             dict.Add("phoneNo", phoneNum);
-
-            var response = await client.PostAsync(ConstInfo.URL_Phone, new FormUrlEncodedContent(dict));
-            var result = await response.Content.ReadAsStringAsync();
             try
             {
+                var response = await client.PostAsync(ConstInfo.URL_Phone, new FormUrlEncodedContent(dict));
+                var result = await response.Content.ReadAsStringAsync();
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
                     err = JsonConvert.DeserializeObject<HttpErr>(result);
@@ -74,13 +80,33 @@ namespace TeamTickets
                     err.code = -2;
                     err.msg = result;
                 }
+                return err;
             }
-            catch (Exception e)
-            {
+            catch (Exception ex) {
                 err.code = -2;
-                err.msg = e.Message+result;
+                err.msg = ex.Message;
+                return err;
             }
-            return err;
+             
+            
+        }
+
+        
+       
+        private void timerElapsed(object source, System.Timers.ElapsedEventArgs e) {
+            System.Threading.Thread.Sleep(1000);
+            clickCount = 0;
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+            timer.Stop();
+            clickCount++;
+            if (clickCount >= 6)
+            {
+                Application.Exit();
+            }
+            timer.Start();
         }
     }
 }

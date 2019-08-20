@@ -7,7 +7,7 @@
         /// <summary>
         /// 查询结果
         /// </summary>
-        public dynamic retval { get; set; }
+        public TicketReturnInfo retval { get; set; }
     }
     public class TicketReturnInfo
     {

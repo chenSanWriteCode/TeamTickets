@@ -223,6 +223,16 @@ namespace TeamTickets.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
+        internal static System.Drawing.Bitmap mbback2 {
+            get {
+                object obj = ResourceManager.GetObject("mbback2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
         internal static System.Drawing.Bitmap num {
             get {
                 object obj = ResourceManager.GetObject("num", resourceCulture);

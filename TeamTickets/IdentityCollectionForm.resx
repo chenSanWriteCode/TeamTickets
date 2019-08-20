@@ -117,21 +117,15 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <metadata name="serNo.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
   <metadata name="id_name.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
   <metadata name="id_num.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <data name="l_attition.Text" xml:space="preserve">
-    <value>注意事项：
-1.单张团体票最少10人，最多20人，若团体共21人请按照10人、11人进行扫描和购买。
-2.本团体凭证仅可使用2次（蓬莱港1次，长岛港1次），有效期5天，若您的团队留岛时间较长，请购票时重新办理。
-3.手工添加前或扫描后请确认身份证信息，确认后无法编辑。
-4.一张团体凭证仅可购买一张团体票
-5.APP用户在保存团体后请在App上进行团体票购买，可使用次数同上。
-6.使用时若遇到问题，请联系港口工作人员。</value>
-  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="btn_6.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -847,5 +841,14 @@
         ySg1pO+oqGMThWfQ61IRT0mgtARKt6ionnJupDCkJFBbZSB7qWsXdf9VoKYoiosSSFUHiqaUXPeuyOJa
         xWZqrg1xVagdAml5nD4hG/rFinCdhBpOr4rnEuSkPLdXs3IgT/0HTghEsiTZx00AAAAASUVORK5CYII=
 </value>
+  </data>
+  <data name="l_attition.Text" xml:space="preserve">
+    <value>注意事项：
+1.单张团体票最少10人，最多20人，若团体共21人请按照10人、11人进行扫描和购买。
+2.本团体凭证仅可使用2次（蓬莱港1次，长岛港1次），有效期5天，若您的团队留岛时间较长，请购票时重新办理。
+3.手工添加前或扫描后请确认身份证信息，确认后无法编辑。
+4.一张团体凭证仅可购买一张团体票
+5.APP用户在保存团体后请在App上进行团体票购买，可使用次数同上。
+6.使用时若遇到问题，请联系港口工作人员。</value>
   </data>
 </root>

@@ -101,6 +101,7 @@
             this.label2.Size = new System.Drawing.Size(354, 25);
             this.label2.TabIndex = 4;
             this.label2.Text = "技术支持：东方瑞创达电子科技有限公司";
+            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // HomeForm
             // 

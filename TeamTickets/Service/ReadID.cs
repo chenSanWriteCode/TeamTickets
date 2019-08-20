@@ -109,7 +109,7 @@ namespace TeamTickets.Service
                 CardData.Agency = Agency.ToString().Trim();
                 CardData.ExpireStart = ExpireStart.ToString().Trim();
                 CardData.ExpireEnd = ExpireEnd.ToString().Trim();
-                CardData.PhotoDirectory +=  "//photo.bmp";
+                //CardData.PhotoDirectory +=  "//photo.bmp";
                 receivedID?.Invoke(CardData);
             }
         }
